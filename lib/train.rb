@@ -51,10 +51,17 @@ class Train
     return list_cities
   end
 
-  def update(attributes)
+  def update_train(attributes)
     @name = attributes[:name]
-    @id = self.id()
-    DB.exec("UPDATE trains SET name = '#{@name}' WHERE id = #{@id};")
+    DB.exec("UPDATE trains SET name = '#{@name}' WHERE id = #{self.id()};")
+  end
+
+  def update_stops (city_ids)
+    # stop_day = attributes[:stop_day]
+    # stop_time = attributes[:stop_time]
+    city_ids.each() do |city_id|
+      DB.exec("INSERT INTO stops(train_id, city_id) VALUES (#{self.id()}, #{city_id})")
+    end
   end
 
   def delete

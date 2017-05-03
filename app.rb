@@ -61,10 +61,12 @@ delete("/train/:id") do
   @cities = City.all()
   erb(:index)
 end
+
 get("/city/:id") do
   @city = City.find(params["id"].to_i())
   erb(:city)
 end
+
 patch("/city/:id") do
   name = params["name"]
   @city = City.find(params["id"].to_i())

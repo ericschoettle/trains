@@ -46,11 +46,11 @@ describe(Train) do
       expect(test_train.cities()).to eq([test_city, test_city1])
     end
 
-    describe '#update' do
+    describe '#update_train' do
       it "lets you update trains in the database" do
         train = Train.new({:name => "polar express"})
         train.save()
-        train.update({:name => "thomas"})
+        train.update_train({:name => "thomas"})
         expect(train.name()).to(eq("thomas"))
       end
     end
@@ -61,6 +61,18 @@ describe(Train) do
         train.save()
         train.delete()
         expect(Train.all()).to eq([])
+      end
+    end
+
+    describe '#update_stops' do
+      it "creates join rows to connect cities and a train" do
+        train = Train.new({:name => "polar express"})
+        train.save()
+        city = City.new({:name => "Toroto", :train_id => 1})
+        city.save()
+        city1 = City.new({:name => "Omaha", :train_id => 1})
+        city1.save()
+        train.update_stops([city1.id(), city.id()])
       end
     end
   end
