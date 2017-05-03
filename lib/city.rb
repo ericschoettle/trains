@@ -43,6 +43,18 @@ class City
     DB.exec("UPDATE cities SET name = '#{name}' WHERE id = #{self.id()};")
   end
 
+  def trains
+    list_trains = []
+    stops = DB.exec("SELECT * FROM stops WHERE city_id = #{self.id};")
+    stops.each() do |stop|
+      id = stop['train_id'].to_i()
+
+      name = Train.find(id).name()
+      list_trains.push(Train.new({:name => name, :id => id}))
+    end
+    return list_trains
+  end
+
   def update_stops (train_ids)
     train_ids.each() do |train_id|
       DB.exec("INSERT INTO stops (train_id, city_id) VALUES (#{train_id}, #{self.id()})")

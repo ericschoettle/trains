@@ -35,6 +35,19 @@ describe(City) do
     end
   end
 
+  describe '#trains' do
+    it('returns an array of trains for that city') do
+      train = Train.new({:name => "polar express"})
+      train.save()
+      train1 = Train.new({:name => "pineapple express"})
+      train1.save()
+      city = City.new({:name => "Toronto"})
+      city.save()
+      city.update_stops ([train.id, train1.id])
+      expect(city.trains()).to eq([train, train1])
+    end
+  end
+
   describe '#delete' do
     it "deletes a city from the cities database" do
       city = City.new({:name => "Seattle"})
