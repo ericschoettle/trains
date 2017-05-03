@@ -37,30 +37,43 @@ describe(Train) do
 
   describe '#cities' do
     it('returns an array of cities for that train') do
-      test_train = Train.new({:name => "polar express"})
-      test_train.save()
-      test_city = City.new({:name => "Toroto", :train_id => test_train.id()})
-      test_city.save()
-      test_city1 = City.new({:name => "Omaha", :train_id => test_train.id()})
-      test_city1.save()
-      expect(test_train.cities()).to eq([test_city, test_city1])
+      train = Train.new({:name => "polar express"})
+      train.save()
+      city = City.new({:name => "Toronto"})
+      city.save()
+      city1 = City.new({:name => "Omaha"})
+      city1.save()
+      train.update_stops ([city.id, city1.id])
+      expect(train.cities()).to eq([city, city1])
     end
 
     describe '#update_train' do
       it "lets you update trains in the database" do
         train = Train.new({:name => "polar express"})
         train.save()
-        train.update_train({:name => "thomas"})
+        train.update_train("thomas")
+        train = Train.find(train.id())
         expect(train.name()).to(eq("thomas"))
       end
     end
 
     describe '#delete' do
-      it "lets you delete a train" do
+      it "deletes a train from trains database" do
         train = Train.new({:name => "polar express"})
         train.save()
         train.delete()
         expect(Train.all()).to eq([])
+      end
+      it "deletes a train from stops database" do
+        train = Train.new({:name => "polar express"})
+        train.save()
+        city = City.new({:name => "Seattle"})
+        city.save()
+        train.update_stops([city.id()])
+        stop = Helper.all_stops().first()
+        expect(stop["train_id"].to_i()).to eq(train.id())
+        train.delete()
+        expect(Helper.all_stops().first()).to eq(nil)
       end
     end
 
@@ -68,9 +81,9 @@ describe(Train) do
       it "creates join rows to connect cities and a train" do
         train = Train.new({:name => "polar express"})
         train.save()
-        city = City.new({:name => "Toroto", :train_id => 1})
+        city = City.new({:name => "Toronto"})
         city.save()
-        city1 = City.new({:name => "Omaha", :train_id => 1})
+        city1 = City.new({:name => "Omaha"})
         city1.save()
         train.update_stops([city1.id(), city.id()])
       end

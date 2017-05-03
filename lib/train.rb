@@ -41,19 +41,18 @@ class Train
 
   def cities
     list_cities = []
-    cities = DB.exec("SELECT * FROM cities WHERE train_id = #{self.id};")
-    cities.each() do |city|
-      name = city['name']
-      train_id = city['train_id'].to_i()
-      id = city['id'].to_i()
-      list_cities.push(City.new({:name => name, :train_id => train_id, :id => id}))
+    stops = DB.exec("SELECT * FROM stops WHERE train_id = #{self.id};")
+    stops.each() do |stop|
+      id = stop['city_id'].to_i()
+
+      name = City.find(id).name()
+      list_cities.push(City.new({:name => name, :id => id}))
     end
     return list_cities
   end
 
-  def update_train(attributes)
-    @name = attributes[:name]
-    DB.exec("UPDATE trains SET name = '#{@name}' WHERE id = #{self.id()};")
+  def update_train(name)
+    DB.exec("UPDATE trains SET name = '#{name}' WHERE id = #{self.id()};")
   end
 
   def update_stops (city_ids)
@@ -66,5 +65,6 @@ class Train
 
   def delete
     DB.exec("DELETE FROM trains WHERE id = #{self.id()};")
+    DB.exec("DELETE FROM stops WHERE train_id = #{self.id()};")
   end
 end
