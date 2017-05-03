@@ -1,0 +1,27 @@
+<div class="jumbotron">
+  <h2><%= @train.name() %> cities</h2>
+  <ul>
+    <% @train.cities().each() do |city| %>
+      <li><%= city.name() %></li>
+    <% end %>
+  </ul>
+
+  <h2>Update <%= @train.name() %>:</h2>
+
+  <form action="/train/<%= @train.id() %>" method="post">
+
+    <input type="hidden" name="_method" value="patch">
+    <div class="form-group">
+      <label for="name">Train's new name?</label>
+      <input type="text" name="name" placeholder="eg Thomas" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Train</button>
+  </form>
+
+  <h2>Delete <%= @train.name() %>:</h2>
+
+  <form action="/train/<%= @train.id() %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button type="submit" class="btn btn-primary">Delete Train</button>
+  </form>
+</div>
