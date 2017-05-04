@@ -25,6 +25,14 @@ describe(Train) do
     end
   end
 
+  describe '#==' do
+    it('is true if trains have same name') do
+      train1 = Train.new({:name => "polar express"})
+      train2 = Train.new({:name => "polar express"})
+      expect(train1).to eq(train2)
+    end
+  end
+
   describe '.find' do
     it('returns a train by its ID') do
       train1 = Train.new({:name => "polar express"})
@@ -86,7 +94,7 @@ describe(Train) do
       city1 = City.new({:name => "Omaha"})
       city1.save()
       train.update_stops([city1.id(), city.id()])
-      expect(train.cities()).to eq(city, city1)
+      expect(train.cities()).to eq([city1, city])
     end
   end
 
@@ -99,7 +107,7 @@ describe(Train) do
       city1 = City.new({:name => "Omaha"})
       city1.save()
       train.update_stops([city1.id()])
-      expect(train.not_cites()).to eq(city)
+      expect(train.not_cities()).to eq([city])
     end
   end
 end

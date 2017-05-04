@@ -2,19 +2,32 @@
   <h2><%= @train.name() %></h2>
 
   <% if @train.cities.any?() %>
-    <form  action="/train/" method="post">
+    <form  action="/train/<%= @train.id %>" method="post">
       <input type="hidden" name="_method" value="delete">
 
-      <% @cities.each() do |movie| %>
+      <% @train.cities.each() do |city| %>
         <div class="checkbox">
           <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
 
         </div>
       <% end %>
-      <button type="submit" class="btn btn-primary">Delete Train</button>
+      <button type="submit" class="btn btn-primary">Delete Cities from train</button>
     </form>
   <% end %>
 
+  <% if @train.not_cities.any?() %>
+    <form  action="/train/<%= @train.id %>" method="post">
+      <input type="hidden" name="_method" value="patch">
+
+      <% @train.not_cities.each() do |city| %>
+        <div class="checkbox">
+          <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
+
+        </div>
+      <% end %>
+      <button type="submit" class="btn btn-primary">Add Cities to Train</button>
+    </form>
+  <% end %>
 
   <h2>Update <%= @train.name() %>:</h2>
 
@@ -30,7 +43,8 @@
 
   <h2>Delete <%= @train.name() %>:</h2>
 
-  <form action="/train/<%= @train.id() %>" method="post">
+  <form action="/train" method="post">
+    <input type="hidden" name="id" value="<%= @train.id() %>">
     <input type="hidden" name="_method" value="delete">
     <button type="submit" class="btn btn-primary">Delete Train</button>
   </form>

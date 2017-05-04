@@ -51,13 +51,13 @@ post('/clear') do
 end
 
 patch("/train/:id") do
-  name = params["name"]
   @train = Train.find(params["id"].to_i())
-  @train.update({:name => name})
+  @train.update_stops(params[:city_ids])
   erb(:train)
 end
 
-delete("/train/:id") do
+delete("/train") do
+  binding.pry
   train = Train.find(params["id"].to_i())
   train.delete()
   @trains = Train.all()

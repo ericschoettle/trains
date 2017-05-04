@@ -8,18 +8,6 @@ class Train
     end
   end
 
-  def self.all
-    all_trains = DB.exec('SELECT * FROM trains ORDER BY name;')
-    saved_trains = []
-    all_trains.each() do |train|
-      name = train['name']
-      id = train['id'].to_i()
-      each_train = Train.new({:name => name, :id => id})
-      saved_trains.push(each_train)
-    end
-    return saved_trains
-  end
-
   def save
     result = DB.exec("INSERT INTO trains (name) VALUES ('#{@name}') RETURNING id;")
     @id = result.first()['id'].to_i()
@@ -27,16 +15,6 @@ class Train
 
   def ==(another_train)
     return self.name() == another_train.name()
-  end
-
-  def self.find(id)
-    found_train = nil
-    Train.all().each() do |train|
-      if train.id() == id
-        found_train = train
-      end
-    end
-    return found_train
   end
 
   def cities
@@ -52,7 +30,15 @@ class Train
   end
 
   def not_cities
-    not_cities = City.all() - self.cities()
+    not_cities = []
+    all_cities = City.all()
+    cities = self.cities()
+    all_cities.each() do |city|
+      if not cities.include?(city)
+        not_cities.push(city)
+      end
+    end
+    return not_cities
   end
 
   def update_train(name)
@@ -63,12 +49,40 @@ class Train
     # stop_day = attributes[:stop_day]
     # stop_time = attributes[:stop_time]
     city_ids.each() do |city_id|
-      DB.exec("INSERT INTO stops(train_id, city_id) VALUES (#{self.id()}, #{city_id})")
+      DB.exec("INSERT INTO stops(train_id, city_id) VALUES (#{self.id()}, #{city_id.to_i})")
     end
   end
 
-  def delete
+  def delete_train
+    self.delete_stops()
     DB.exec("DELETE FROM trains WHERE id = #{self.id()};")
+  end
+
+  def delete_stops
     DB.exec("DELETE FROM stops WHERE train_id = #{self.id()};")
+  end
+
+  class << self
+    def all
+      all_trains = DB.exec('SELECT * FROM trains ORDER BY name;')
+      saved_trains = []
+      all_trains.each() do |train|
+        name = train['name']
+        id = train['id'].to_i()
+        each_train = Train.new({:name => name, :id => id})
+        saved_trains.push(each_train)
+      end
+      return saved_trains
+    end
+
+    def find(id)
+      found_train = nil
+      Train.all().each() do |train|
+        if train.id() == id
+          found_train = train
+        end
+      end
+      return found_train
+    end
   end
 end

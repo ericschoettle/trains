@@ -9,7 +9,6 @@ describe('trains', {:type => :feature}) do
   it "goes to operator page when you click on the operator button" do
     visit('/')
     click_link("I'm an operator")
-    save_and_open_page
     expect(page).to have_content('Add a train')
   end
 
