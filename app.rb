@@ -56,10 +56,19 @@ patch("/train/:id") do
   erb(:train)
 end
 
+delete("/train/:id") do
+  binding.pry
+  train = Train.find(params["id"].to_i())
+
+  @trains = Train.all()
+  @cities = City.all()
+  erb(:operator)
+end
+
 delete("/train") do
   binding.pry
   train = Train.find(params["id"].to_i())
-  train.delete()
+  train.delete_train()
   @trains = Train.all()
   @cities = City.all()
   erb(:operator)
@@ -79,7 +88,7 @@ end
 
 delete("/city/:id") do
   city = City.find(params["id"].to_i())
-  city.delete()
+  city.delete_stops()
   @trains = Train.all()
   @cities = City.all()
   erb(:operator)

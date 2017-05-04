@@ -65,11 +65,11 @@ describe(Train) do
     end
   end
 
-  describe '#delete' do
+  describe '#delete_train' do
     it "deletes a train from trains database" do
       train = Train.new({:name => "polar express"})
       train.save()
-      train.delete()
+      train.delete_train()
       expect(Train.all()).to eq([])
     end
     it "deletes a train from stops database" do
@@ -80,7 +80,7 @@ describe(Train) do
       train.update_stops([city.id()])
       stop = Helper.all_stops().first()
       expect(stop["train_id"].to_i()).to eq(train.id())
-      train.delete()
+      train.delete_train()
       expect(Helper.all_stops().first()).to eq(nil)
     end
   end

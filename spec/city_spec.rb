@@ -38,11 +38,11 @@ describe(City) do
     end
   end
 
-  describe '#delete' do
+  describe '#delete_city' do
     it "deletes a city from the cities database" do
       city = City.new({:name => "Seattle"})
       city.save()
-      city.delete()
+      city.delete_city()
       expect(City.all()).to eq([])
     end
     it "deletes a city from the stops database" do
@@ -53,7 +53,7 @@ describe(City) do
       city.update_stops([train.id()])
       stop = Helper.all_stops().first()
       expect(stop["city_id"].to_i()).to eq(city.id())
-      city.delete()
+      city.delete_city()
       expect(Helper.all_stops().first()).to eq(nil)
     end
   end

@@ -38,7 +38,7 @@ class City
     end
     return found_city
   end
-  # 
+  #
   # def update_city(name)
   #   DB.exec("UPDATE cities SET name = '#{name}' WHERE id = #{self.id()};")
   # end
@@ -61,8 +61,10 @@ class City
     end
   end
 
-  def delete
+  def delete_city
     DB.exec("DELETE FROM cities WHERE id = #{self.id()};")
+  end
+  def delete_stops
     DB.exec("DELETE FROM stops WHERE city_id = #{self.id()};")
   end
 end
