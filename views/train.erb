@@ -26,8 +26,8 @@
           <% @train.not_cities.each() do |city| %>
             <div class="checkbox">
               <label><input type="checkbox" name="city_ids[]" onclick="dynInput(this)" value="<%= city.id() %>"><%= city.name() %></label>
-              <p id="insertinputs"></p>
             </div>
+            <p id="insertinputs"></p>
           <% end %>
           <button type="submit" class="btn btn-primary">Add Cities to Train</button>
         </form>

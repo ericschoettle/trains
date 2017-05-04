@@ -1,9 +1,9 @@
 function dynInput(cbox) {
   if (cbox.checked) {
     var input = document.createElement("input");
-    input.type = "text";
+    input.type = "time";
+    input.name = "times[]"
     var div = document.createElement("div");
-    div.id = cbox.name;
     div.innerHTML = "Arrival time:";
     div.appendChild(input);
     document.getElementById("insertinputs").appendChild(div);

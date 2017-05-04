@@ -45,11 +45,18 @@ class Train
     DB.exec("UPDATE trains SET name = '#{name}' WHERE id = #{self.id()};")
   end
 
-  def update_stops (city_ids)
-    # stop_day = attributes[:stop_day]
-    # stop_time = attributes[:stop_time]
-    city_ids.each() do |city_id|
-      DB.exec("INSERT INTO stops(train_id, city_id) VALUES (#{self.id()}, #{city_id.to_i})")
+  def update_stops (attributes)
+    time = attributes[:time]
+    attributes.fetch(city_ids, []).each_with_index() do |city_id, time|
+      DB.exec("INSERT INTO stops(train_id, city_id, time) VALUES (#{self.id()}, #{city_id.to_i}, #{time(index)})")
+    end
+  end
+
+  def update_stops (attributes)
+    times = attributes.fetch(:times, [])
+    city_ids = attributes.fetch(:city_ids, [])
+    city_ids.each_with_index() do |city_id, index|
+      DB.exec("INSERT INTO stops(train_id, city_id, time) VALUES (#{self.id()}, #{city_id.to_i}, #{times(index)})")
     end
   end
 

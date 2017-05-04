@@ -41,8 +41,9 @@ post('/train') do
 end
 
 patch("/train/:id") do
+  binding.pry
   @train = Train.find(params["id"].to_i())
-  @train.update_stops(params[:city_ids])
+  @train.update_stops({:city_ids => params[:city_ids], :times => params[:times]})
   erb(:train)
 end
 
