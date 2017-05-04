@@ -2,6 +2,7 @@
   <h1><%= @train.name().upcase() %></h1>
   <div class="row">
     <div class="col-md-6">
+      <h3>Cities <%= @train.name() %> visits</h3>
       <% if @train.cities.any?() %>
         <form  action="/train/<%= @train.id %>" method="post">
           <input type="hidden" name="_method" value="delete">
@@ -17,14 +18,15 @@
       <% end %>
     </div>
     <div class="col-md-6">
+      <h3>Cities <%= @train.name() %> does not visit</h3>
       <% if @train.not_cities.any?() %>
         <form  action="/train/<%= @train.id %>" method="post">
           <input type="hidden" name="_method" value="patch">
 
           <% @train.not_cities.each() do |city| %>
             <div class="checkbox">
-              <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
-
+              <label><input type="checkbox" name="city_ids[]" onclick="dynInput(this)" value="<%= city.id() %>"><%= city.name() %></label>
+              <p id="insertinputs"></p>
             </div>
           <% end %>
           <button type="submit" class="btn btn-primary">Add Cities to Train</button>
@@ -32,24 +34,28 @@
       <% end %>
     </div>
   </div>
-  
-  <h2>Update <%= @train.name() %>:</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Delete <%= @train.name() %>:</h3>
 
-  <form action="/train/<%= @train.id() %>" method="post">
-
-    <input type="hidden" name="_method" value="patch">
-    <div class="form-group">
-      <label for="name">Train's new name?</label>
-      <input type="text" name="name" placeholder="eg Thomas" required>
+      <form action="/train" method="post">
+        <input type="hidden" name="id" value="<%= @train.id() %>">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit" class="btn btn-primary">Delete Train</button>
+      </form>
     </div>
-    <button type="submit" class="btn btn-primary">Update Train</button>
-  </form>
+    <div class="col-md-6">
+      <h3>Update <%= @train.name() %>:</h3>
 
-  <h2>Delete <%= @train.name() %>:</h2>
+      <form action="/train/<%= @train.id() %>" method="post">
 
-  <form action="/train" method="post">
-    <input type="hidden" name="id" value="<%= @train.id() %>">
-    <input type="hidden" name="_method" value="delete">
-    <button type="submit" class="btn btn-primary">Delete Train</button>
-  </form>
+        <input type="hidden" name="_method" value="patch">
+        <div class="form-group">
+          <label for="name">Train's new name?</label>
+          <input type="text" name="name" placeholder="eg Thomas" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Train</button>
+      </form>
+    </div>
+  </div>
 </div>

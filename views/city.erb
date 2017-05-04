@@ -2,6 +2,7 @@
   <h1><%= @city.name().upcase() %></h1>
   <div class="row">
     <div class="col-md-6">
+      <h3>Trains that visit <%= @city.name() %></h3>
       <% if @city.trains.any?() %>
         <form  action="/city/<%= @city.id %>" method="post">
           <input type="hidden" name="_method" value="delete">
@@ -17,6 +18,7 @@
       <% end %>
     </div>
     <div class="col-md-6">
+      <h3>Trains that visit <%= @city.name() %></h3>
       <% if @city.not_trains.any?() %>
         <form  action="/city/<%= @city.id %>" method="post">
           <input type="hidden" name="_method" value="patch">
@@ -32,14 +34,16 @@
       <% end %>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Delete <%= @city.name() %>:</h3>
 
+      <form action="/city" method="post">
+        <input type="hidden" name="id" value="<%= @city.id() %>">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit" class="btn btn-primary">Delete City</button>
+      </form>
+    </div>
+  </div>
 
-
-  <h2>Delete <%= @city.name() %>:</h2>
-
-  <form action="/city" method="post">
-    <input type="hidden" name="id" value="<%= @city.id() %>">
-    <input type="hidden" name="_method" value="delete">
-    <button type="submit" class="btn btn-primary">Delete City</button>
-  </form>
 </div>
