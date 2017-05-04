@@ -25,16 +25,6 @@ describe(City) do
     end
   end
 
-  describe '#update_city' do
-    it "lets you update a city" do
-      city = City.new({:name => "Seattle"})
-      city.save()
-      city.update_city("Portland")
-      city = City.find(city.id())
-      expect(city.name()).to(eq("Portland"))
-    end
-  end
-
   describe '#trains' do
     it('returns an array of trains for that city') do
       train = Train.new({:name => "polar express"})

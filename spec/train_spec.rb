@@ -86,6 +86,20 @@ describe(Train) do
       city1 = City.new({:name => "Omaha"})
       city1.save()
       train.update_stops([city1.id(), city.id()])
+      expect(train.cities()).to eq(city, city1)
+    end
+  end
+
+  describe '#not_cities' do
+    it "shows cities that are not assigned to the train" do
+      train = Train.new({:name => "polar express"})
+      train.save()
+      city = City.new({:name => "Toronto"})
+      city.save()
+      city1 = City.new({:name => "Omaha"})
+      city1.save()
+      train.update_stops([city1.id()])
+      expect(train.not_cites()).to eq(city)
     end
   end
 end

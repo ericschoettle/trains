@@ -51,6 +51,10 @@ class Train
     return list_cities
   end
 
+  def not_cities
+    not_cities = City.all() - self.cities()
+  end
+
   def update_train(name)
     DB.exec("UPDATE trains SET name = '#{name}' WHERE id = #{self.id()};")
   end

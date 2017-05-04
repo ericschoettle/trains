@@ -38,10 +38,10 @@ class City
     end
     return found_city
   end
-
-  def update_city(name)
-    DB.exec("UPDATE cities SET name = '#{name}' WHERE id = #{self.id()};")
-  end
+  # 
+  # def update_city(name)
+  #   DB.exec("UPDATE cities SET name = '#{name}' WHERE id = #{self.id()};")
+  # end
 
   def trains
     list_trains = []

@@ -1,10 +1,20 @@
 <div class="jumbotron">
-  <h2><%= @train.name() %> cities</h2>
-  <ul>
-    <% @train.cities().each() do |city| %>
-      <li><%= city.name() %></li>
-    <% end %>
-  </ul>
+  <h2><%= @train.name() %></h2>
+
+  <% if @train.cities.any?() %>
+    <form  action="/train/" method="post">
+      <input type="hidden" name="_method" value="delete">
+
+      <% @cities.each() do |movie| %>
+        <div class="checkbox">
+          <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
+
+        </div>
+      <% end %>
+      <button type="submit" class="btn btn-primary">Delete Train</button>
+    </form>
+  <% end %>
+
 
   <h2>Update <%= @train.name() %>:</h2>
 

@@ -1,15 +1,4 @@
 <div class="jumbotron">
-  <h2>Update <%= @city.name() %>:</h2>
-
-  <form action="/city/<%= @city.id() %>" method="post">
-
-    <input type="hidden" name="_method" value="patch">
-    <div class="form-group">
-      <label for="name">City's new name?</label>
-      <input type="text" name="name" placeholder="eg Svalbard" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Update City</button>
-  </form>
 
   <h2>Delete <%= @city.name() %>:</h2>
 

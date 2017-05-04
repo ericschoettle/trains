@@ -10,11 +10,14 @@ also_reload('lib/**/*.rb')
 DB = PG.connect({:dbname => "trains"})
 
 get('/') do
-  @trains = Train.all()
-  @cities = City.all()
   erb(:index)
 end
 
+get('/operator') do
+  @trains = Train.all()
+  @cities = City.all()
+  erb(:operator)
+end
 
 post('/train') do
   name = params[:name]
@@ -22,7 +25,7 @@ post('/train') do
   new_train.save()
   @trains = Train.all()
   @cities = City.all()
-  erb(:index)
+  erb(:operator)
 end
 
 post('/city') do
@@ -32,7 +35,7 @@ post('/city') do
   new_city.save()
   @trains = Train.all()
   @cities = City.all()
-  erb(:index)
+  erb(:operator)
 end
 
 get('/train/:id') do
@@ -44,7 +47,7 @@ post('/clear') do
   Helper.clear_db()
   @trains = Train.all()
   @cities = City.all()
-  erb(:index)
+  erb(:operator)
 end
 
 patch("/train/:id") do
@@ -59,7 +62,7 @@ delete("/train/:id") do
   train.delete()
   @trains = Train.all()
   @cities = City.all()
-  erb(:index)
+  erb(:operator)
 end
 
 get("/city/:id") do
@@ -67,17 +70,17 @@ get("/city/:id") do
   erb(:city)
 end
 
-patch("/city/:id") do
-  name = params["name"]
-  @city = City.find(params["id"].to_i())
-  @city.update({:name => name})
-  erb(:city)
-end
+# patch("/city/:id") do
+#   name = params["name"]
+#   @city = City.find(params["id"].to_i())
+#   @city.update_city({:name => name})
+#   erb(:city)
+# end
 
 delete("/city/:id") do
   city = City.find(params["id"].to_i())
   city.delete()
   @trains = Train.all()
   @cities = City.all()
-  erb(:index)
+  erb(:operator)
 end

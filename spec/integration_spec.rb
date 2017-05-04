@@ -1,19 +1,27 @@
-# require('capybara/rspec')
-# require('./app')
-# require('pry')
-# Capybara.app = Sinatra::Application
-# set(:show_exceptions, false)
-#
-# describe('trains office', {:type => :feature}) do
-#   it "adds a specialty, adds a train to that specialty, adds a city to that train, and clicks on that train to see the city" do
-#     visit('/')
-#     within('#specialty') {fill_in("name", :with => "urology")}
-#     click_button("Add the specialty")
-#     expect(page).to have_content('urology')
-#     within('#train') {fill_in("name", :with => "danger")}
-#     find('#specialtySelect').find(:xpath, 'option[1]').select_option
-#     click_button("Add the train")
-#     expect(page).to have_content('danger')
-#     click_link("urology")
-#   end
-# end
+require('capybara/rspec')
+require('./app')
+require('pry')
+require('launchy')
+Capybara.app = Sinatra::Application
+set(:show_exceptions, false)
+
+describe('trains', {:type => :feature}) do
+  it "goes to operator page when you click on the operator button" do
+    visit('/')
+    click_link("I'm an operator")
+    save_and_open_page
+    expect(page).to have_content('Add a train')
+  end
+
+  # it "selects train operator function, adds train, city, and a stop" do
+  #   visit('/')
+  #   within('#train') {fill_in("name", :with => "Polar Express")}
+  #   click_button("Add the train")
+  #   expect(page).to have_content('Polar Express')
+  #   within('#city') {fill_in("name", :with => "Chicago")}
+  #   find('#trainSelect').find(:xpath, 'option[1]').select_option
+  #   click_button("Add the city")
+  #   expect(page).to have_content('danger')
+  #   click_link("urology")
+  # end
+end
