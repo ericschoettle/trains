@@ -55,6 +55,18 @@ class City
     return list_trains
   end
 
+  def not_trains
+    not_trains = []
+    all_trains = Train.all()
+    trains = self.trains()
+    all_trains.each() do |train|
+      if not trains.include?(train)
+        not_trains.push(train)
+      end
+    end
+    return not_trains
+  end
+
   def update_stops (train_ids)
     train_ids.each() do |train_id|
       DB.exec("INSERT INTO stops (train_id, city_id) VALUES (#{train_id}, #{self.id()})")
@@ -63,8 +75,12 @@ class City
 
   def delete_city
     DB.exec("DELETE FROM cities WHERE id = #{self.id()};")
-  end
-  def delete_stops
     DB.exec("DELETE FROM stops WHERE city_id = #{self.id()};")
+  end
+
+  def delete_stops(train_ids)
+    train_ids.each() do |train_id|
+      DB.exec("DELETE FROM stops WHERE train_id = #{train_id};")
+    end
   end
 end

@@ -1,8 +1,44 @@
 <div class="jumbotron">
+  <h1><%= @city.name().upcase() %></h1>
+  <div class="row">
+    <div class="col-md-6">
+      <% if @city.trains.any?() %>
+        <form  action="/city/<%= @city.id %>" method="post">
+          <input type="hidden" name="_method" value="delete">
+
+          <% @city.trains.each() do |train| %>
+            <div class="checkbox">
+              <label><input type="checkbox" name="train_ids[]" value="<%= train.id() %>"><%= train.name() %></label>
+
+            </div>
+          <% end %>
+          <button type="submit" class="btn btn-primary">Delete Trains from city</button>
+        </form>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <% if @city.not_trains.any?() %>
+        <form  action="/city/<%= @city.id %>" method="post">
+          <input type="hidden" name="_method" value="patch">
+
+          <% @city.not_trains.each() do |train| %>
+            <div class="checkbox">
+              <label><input type="checkbox" name="train_ids[]" value="<%= train.id() %>"><%= train.name() %></label>
+
+            </div>
+          <% end %>
+          <button type="submit" class="btn btn-primary">Add Trains to City</button>
+        </form>
+      <% end %>
+    </div>
+  </div>
+
+
 
   <h2>Delete <%= @city.name() %>:</h2>
 
-  <form action="/city/<%= @city.id() %>" method="post">
+  <form action="/city" method="post">
+    <input type="hidden" name="id" value="<%= @city.id() %>">
     <input type="hidden" name="_method" value="delete">
     <button type="submit" class="btn btn-primary">Delete City</button>
   </form>

@@ -54,12 +54,14 @@ class Train
   end
 
   def delete_train
-    self.delete_stops()
     DB.exec("DELETE FROM trains WHERE id = #{self.id()};")
+    DB.exec("DELETE FROM stops WHERE train_id = #{self.id()};")
   end
 
-  def delete_stops
-    DB.exec("DELETE FROM stops WHERE train_id = #{self.id()};")
+  def delete_stops (city_ids)
+    city_ids.each() do |city_id|
+      DB.exec("DELETE from stops where city_id = #{city_id};")
+    end
   end
 
   class << self

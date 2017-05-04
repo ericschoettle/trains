@@ -1,34 +1,38 @@
 <div class="jumbotron">
-  <h2><%= @train.name() %></h2>
+  <h1><%= @train.name().upcase() %></h1>
+  <div class="row">
+    <div class="col-md-6">
+      <% if @train.cities.any?() %>
+        <form  action="/train/<%= @train.id %>" method="post">
+          <input type="hidden" name="_method" value="delete">
 
-  <% if @train.cities.any?() %>
-    <form  action="/train/<%= @train.id %>" method="post">
-      <input type="hidden" name="_method" value="delete">
+          <% @train.cities.each() do |city| %>
+            <div class="checkbox">
+              <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
 
-      <% @train.cities.each() do |city| %>
-        <div class="checkbox">
-          <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
-
-        </div>
+            </div>
+          <% end %>
+          <button type="submit" class="btn btn-primary">Delete Cities from train</button>
+        </form>
       <% end %>
-      <button type="submit" class="btn btn-primary">Delete Cities from train</button>
-    </form>
-  <% end %>
+    </div>
+    <div class="col-md-6">
+      <% if @train.not_cities.any?() %>
+        <form  action="/train/<%= @train.id %>" method="post">
+          <input type="hidden" name="_method" value="patch">
 
-  <% if @train.not_cities.any?() %>
-    <form  action="/train/<%= @train.id %>" method="post">
-      <input type="hidden" name="_method" value="patch">
+          <% @train.not_cities.each() do |city| %>
+            <div class="checkbox">
+              <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
 
-      <% @train.not_cities.each() do |city| %>
-        <div class="checkbox">
-          <label><input type="checkbox" name="city_ids[]" value="<%= city.id() %>"><%= city.name() %></label>
-
-        </div>
+            </div>
+          <% end %>
+          <button type="submit" class="btn btn-primary">Add Cities to Train</button>
+        </form>
       <% end %>
-      <button type="submit" class="btn btn-primary">Add Cities to Train</button>
-    </form>
-  <% end %>
-
+    </div>
+  </div>
+  
   <h2>Update <%= @train.name() %>:</h2>
 
   <form action="/train/<%= @train.id() %>" method="post">
